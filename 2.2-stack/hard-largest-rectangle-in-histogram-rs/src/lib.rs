@@ -1,8 +1,11 @@
+use std::cmp;
+
 pub struct Solution {}
 
 impl Solution {
     pub fn largest_rectangle_area(heights: Vec<i32>) -> i32 {
-        Self::solution_v1(heights)
+        // Self::solution_v1(heights)
+        Self::solution_v2(heights)
     }
 
     // brute force - runtime: 1708 ms, memory: 3.1 MB
@@ -37,7 +40,52 @@ impl Solution {
         max_area
     }
 
+    // smaller right and smaller left
+    // runtime: 20 ms, memory: 5.16 MB
     fn solution_v2(heights: Vec<i32>) -> i32 {
-        
+        let mut stack = Vec::<usize>::new();
+        let mut l = vec![0; heights.len()];
+        let mut r = vec![0; heights.len()];
+        let mut max_area = 0;
+
+        for i in 0..heights.len() {
+            while let Some(s) = stack.last() {
+                if heights[i] <= heights[*s] {
+                    stack.pop();
+                } else {
+                    break;
+                }
+            }
+            if stack.is_empty() {
+                l[i] = 0;
+            } else {
+                l[i] = *stack.last().unwrap() + 1;
+            }
+            stack.push(i);
+        }
+
+        stack.clear();
+
+        for i in (0..heights.len()).rev() {
+            while let Some(s) = stack.last() {
+                if heights[i] <= heights[*s] {
+                    stack.pop();
+                } else {
+                    break;
+                }
+            }
+            if stack.is_empty() {
+                r[i] = heights.len() - 1;
+            } else {
+                r[i] = *stack.last().unwrap() - 1;
+            }
+            stack.push(i);
+        }
+
+        for i in 0..heights.len() {
+            max_area = cmp::max(max_area, heights[i] * (r[i] - l[i] + 1) as i32);
+        }
+
+        max_area
     }
 }
