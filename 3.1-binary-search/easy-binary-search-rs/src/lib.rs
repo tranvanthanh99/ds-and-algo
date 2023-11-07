@@ -9,9 +9,12 @@ impl Solution {
             let m = l + (r - l) / 2;
 
             if nums[m] > target {
-                r = m - 1;
+                if m == 0 {
+                    break;
+                }
+                r = m;
             } else if nums[m] < target {
-                l = m + 1;
+                l = m;
             } else {
                 return m as i32;
             }
