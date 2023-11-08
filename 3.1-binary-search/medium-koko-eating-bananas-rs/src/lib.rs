@@ -1,6 +1,7 @@
 pub struct Solution {}
 
 impl Solution {
+    // runtime: 7ms, memory: 2.7 MB
     pub fn min_eating_speed(piles: Vec<i32>, h: i32) -> i32 {
         let mut l = 1;
         let mut r = *piles.iter().max().unwrap();
