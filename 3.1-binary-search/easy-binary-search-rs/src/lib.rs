@@ -12,9 +12,9 @@ impl Solution {
                 if m == 0 {
                     break;
                 }
-                r = m;
+                r = m - 1;
             } else if nums[m] < target {
-                l = m;
+                l = m + 1;
             } else {
                 return m as i32;
             }
