@@ -8,11 +8,14 @@ impl Solution {
         let mut map = HashMap::<u8, i16>::new();
         let mut count = s1.len();
         let mut start = 0;
+        
+        // o(s1.len())
         for &c in s1.as_bytes().iter() {
             *map.entry(c).or_default() += 1;
         }
 
-        for (end, &c) in s2.as_bytes().iter().enumerate() { // o(n)
+        // o(s2.len())
+        for (end, &c) in s2.as_bytes().iter().enumerate() {
             match map.get(&c) {
                 Some(&v) => {
                     map.insert(c, v - 1);
